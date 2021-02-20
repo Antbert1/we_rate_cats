@@ -1,3 +1,106 @@
-.title {
-  font-size: 20px;
+/* Customise generic tags */
+
+a, h1, h2, p {
+  color: #4a4a4a;
+}
+
+a:hover {
+  color: #878787;
+  transition: color 0.3s ease-in-out;
+  text-decoration: none;
+}
+
+.customHeader {
+  font-weight: 400;
+}
+
+.divider {
+  border-bottom: 2px solid #4a4a4a;
+  padding-bottom: 20px;
+}
+
+/* Button Styles */
+.buttonStyle {
+  padding: 5px;
+  border: 1px solid #4a4a4a;
+  border-radius: 5px;
+}
+
+.topNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.backChevron {
+  padding-top: 10px;
+}
+
+/* Uploader Styles */
+.uploaderContent {
+  display: flex;
+  justify-content: center;
+}
+
+/* Give this a width and height and sit whatever image into it */
+.catImage {
+  margin: 0 auto;
+  width: 340px;
+  height: 340px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 3px 5px 0 rgb(0 0 0 / 20%);
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/* Ensure image fits inside box */
+.catImage img {
+  max-width: 330px;
+}
+
+.customImgUpload {
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 5px 20px 5px 20px;
+}
+/* Hide the default input box */
+.defaultInput {
+  display: none !important;
+}
+
+.save {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.saveBtn {
+  color: white;
+  padding: 5px 20px 5px 20px;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.activeSave {
+  background-color: #878787;
+}
+
+.inactiveSave {
+  background-color: #b8b8b8;
+  pointer-events: none;
+}
+
+.errorMsg {
+  margin: 20px auto;
+  color: #e52228;
+  text-align: center;
+  max-width: 400px;
+  border: 1px solid #e52228;
+  padding: 10px;
+  border-radius: 5px;
 }
