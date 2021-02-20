@@ -31,3 +31,57 @@ a:hover {
   justify-content: space-between;
   align-items: center;
 }
+
+/* Uploader Styles */
+.uploaderContent {
+  display: flex;
+  justify-content: center;
+}
+
+/* Give this a width and height and sit whatever image into it */
+.catImage {
+  margin: 0 auto;
+  width: 340px;
+  height: 340px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 3px 5px 0 rgb(0 0 0 / 20%);
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.customImgUpload {
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 500;
+  padding: 5px 20px 5px 20px;
+}
+/* Hide the default input box */
+.defaultInput {
+  display: none !important;
+}
+
+.save {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.saveBtn {
+  color: white;
+  padding: 5px 20px 5px 20px;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.activeSave {
+  background-color: #878787;
+}
+
+.inactiveSave {
+  background-color: #b8b8b8;
+  pointer-events: none;
+}
