@@ -51,6 +51,11 @@ a:hover {
   margin-bottom: 20px;
 }
 
+/* Ensure image fits inside box */
+.catImage img {
+  max-width: 330px;
+}
+
 .customImgUpload {
   cursor: pointer;
   font-size: 20px;
@@ -84,4 +89,14 @@ a:hover {
 .inactiveSave {
   background-color: #b8b8b8;
   pointer-events: none;
+}
+
+.errorMsg {
+  margin: 20px auto;
+  color: #e52228;
+  text-align: center;
+  max-width: 400px;
+  border: 1px solid #e52228;
+  padding: 10px;
+  border-radius: 5px;
 }

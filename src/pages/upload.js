@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../actions';
-// import ReactCrop from "react-image-crop";
+import { withRouter } from "react-router-dom";
 import { compressToLimit, uploadImage } from '../util';
 import Header from '../components/Header';
 import defaultImg from '../assets/images/blankCat.png';
@@ -15,7 +15,8 @@ class Upload extends Component {
       fileToUpload: "",
       loading: false,
       imageSource: defaultImg,
-      saveButton: false
+      saveButton: false,
+      error: false
     }
   }
 
@@ -37,8 +38,15 @@ class Upload extends Component {
     }
   }
 
+  clear() {
+    //Remove the error message
+    this.setState({
+      error: false
+    });
+  }
+
   submit() {
-    // Ensure image is sized down
+    var self = this;
     const formData = new FormData();
     formData.append("file", this.state.fileToUpload);
     formData.append("sub_id", this.state.fileToUpload.name);
@@ -62,13 +70,29 @@ class Upload extends Component {
         .then(response => response.json())
         .then((responseJson)=> {
           debugger;
+          if (responseJson.approved !== 1) {
+            self.setState({
+              fileToUpload: "",
+              loading: false,
+              imageSource: defaultImg,
+              saveButton: false,
+              error: true
+            });
+          } else {
+            this.props.history.push('/');
+          }
         })
         .catch((error) => {
           console.log(error);
-          debugger;
+          self.setState({
+            fileToUpload: "",
+            loading: false,
+            imageSource: defaultImg,
+            saveButton: false,
+            error: true
+          });
         });
   }
-
 
   render() {
     return (
@@ -87,7 +111,7 @@ class Upload extends Component {
             type="file"
             id="image-upload"
             name="imageFile"
-            accept="image/jpeg, image/png"
+            // accept="image/jpeg, image/png"
             onChange={()=>this._onChange()}
             className="defaultInput"
           />
@@ -99,6 +123,11 @@ class Upload extends Component {
               SAVE
             </div>
           </div>
+          {this.state.error &&
+            <div className="errorMsg">
+              There was a problem uploading your cat. Check the file type, size and that it actually contains a cat.
+            </div>
+          }
       </div>
     )
   }

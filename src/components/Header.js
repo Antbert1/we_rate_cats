@@ -1,7 +1,7 @@
 // Shared header component for app. Only show the upload button on the root page. Passes in a prop 'root' to test this
 
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Button from '../components/Button';
 import '../App.css';
 
