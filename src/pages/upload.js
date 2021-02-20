@@ -6,6 +6,7 @@ import { withRouter } from "react-router-dom";
 import { compressToLimit, uploadImage } from '../util';
 import Header from '../components/Header';
 import defaultImg from '../assets/images/blankCat.png';
+import back from '../assets/images/backChevron.png';
 
 class Upload extends Component {
 
@@ -16,7 +17,7 @@ class Upload extends Component {
       loading: false,
       imageSource: defaultImg,
       saveButton: false,
-      error: false
+      errorMsg: null
     }
   }
 
@@ -32,17 +33,11 @@ class Upload extends Component {
         this.setState({
             imageSource: [reader.result],
             saveButton: true,
-            fileToUpload: file
+            fileToUpload: file,
+            errorMsg: null
         })
        }.bind(this);
     }
-  }
-
-  clear() {
-    //Remove the error message
-    this.setState({
-      error: false
-    });
   }
 
   submit() {
@@ -76,7 +71,7 @@ class Upload extends Component {
               loading: false,
               imageSource: defaultImg,
               saveButton: false,
-              error: true
+              errorMsg: responseJson.message
             });
           } else {
             this.props.history.push('/');
@@ -89,7 +84,7 @@ class Upload extends Component {
             loading: false,
             imageSource: defaultImg,
             saveButton: false,
-            error: true
+            errorMsg: error
           });
         });
   }
@@ -98,36 +93,37 @@ class Upload extends Component {
     return (
       <div className="container">
         <Header root={false} />
-          <div className="catImage">
-            <img src={this.state.imageSource} />
+        <img src={back} className="backChevron" onClick={()=>this.props.history.push('/')} />
+        <div className="catImage">
+          <img src={this.state.imageSource} />
+        </div>
+        <div className="uploaderContent">
+          <label htmlFor="image-upload" className="customImgUpload buttonStyle">
+            UPLOAD CAT
+          </label>
+        </div>
+        <input
+          ref="file"
+          type="file"
+          id="image-upload"
+          name="imageFile"
+          // accept="image/jpeg, image/png"
+          onChange={()=>this._onChange()}
+          className="defaultInput"
+        />
+        <div className="save">
+          <div
+            className={"saveBtn " + (this.state.saveButton ? 'activeSave' : 'inactiveSave')}
+            onClick={()=>this.submit()}
+            >
+            SAVE
           </div>
-          <div className="uploaderContent">
-            <label htmlFor="image-upload" className="customImgUpload buttonStyle">
-              UPLOAD CAT
-            </label>
+        </div>
+        {this.state.errorMsg !== null &&
+          <div className="errorMsg">
+            {this.state.errorMsg}
           </div>
-          <input
-            ref="file"
-            type="file"
-            id="image-upload"
-            name="imageFile"
-            // accept="image/jpeg, image/png"
-            onChange={()=>this._onChange()}
-            className="defaultInput"
-          />
-          <div className="save">
-            <div
-              className={"saveBtn " + (this.state.saveButton ? 'activeSave' : 'inactiveSave')}
-              onClick={()=>this.submit()}
-              >
-              SAVE
-            </div>
-          </div>
-          {this.state.error &&
-            <div className="errorMsg">
-              There was a problem uploading your cat. Check the file type, size and that it actually contains a cat.
-            </div>
-          }
+        }
       </div>
     )
   }
