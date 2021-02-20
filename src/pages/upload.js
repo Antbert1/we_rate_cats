@@ -1,17 +1,16 @@
+// Upload Cats
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../actions';
 import '../App.css';
 
-class SubComponent extends Component {
+class Upload extends Component {
 
   render() {
-    //Show the sent prop data here
     return (
         <div>
           TEST
-          {this.props.string}
         </div>
         )
     }
@@ -30,4 +29,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(SubComponent);
+)(Upload);

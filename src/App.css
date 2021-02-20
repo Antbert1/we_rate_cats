@@ -1,3 +1,33 @@
-.title {
-  font-size: 20px;
+/* Customise generic tags */
+
+a, h1, h2, p {
+  color: #4a4a4a;
+}
+
+a:hover {
+  color: #878787;
+  transition: color 0.3s ease-in-out;
+  text-decoration: none;
+}
+
+.customHeader {
+  font-weight: 400;
+}
+
+.divider {
+  border-bottom: 2px solid #4a4a4a;
+  padding-bottom: 20px;
+}
+
+/* Button Styles */
+.buttonStyle {
+  padding: 5px;
+  border: 1px solid #4a4a4a;
+  border-radius: 5px;
+}
+
+.topNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
