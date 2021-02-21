@@ -143,6 +143,13 @@ a:hover {
 
 /* Display list of cats */
 
+.catRetrievalError {
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+  font-size: 16px;
+}
+
 .catRows {
   display: flex;
   flex-wrap: wrap;
@@ -154,8 +161,9 @@ a:hover {
 }
 
 .innerContainer {
-  justify-content: center;
-  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   padding: 10px;
   margin: 10px;
   box-shadow: 0 3px 5px 0 rgb(0 0 0 / 20%);
@@ -166,6 +174,26 @@ a:hover {
   width: 100%;
 }
 
+.heart {
+  padding-top: 5px;
+  color: #4c6ef5;
+  cursor: pointer;
+}
+
+.extraInfo {
+  padding-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.voteArrow {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.voteArrowD {
+  padding-right: 10px;
+}
 
 /* Media Queries */
 @media only screen and (max-width: 1200px) {

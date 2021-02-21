@@ -10,7 +10,7 @@ import {
 } from 'react-router-dom';
 //Pages
 import RootPage from './pages';
-import Upload from './pages/Upload';
+import Upload from './pages/upload';
 import * as Actions from './actions';
 
 class App extends Component {

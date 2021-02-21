@@ -51,17 +51,7 @@ class Upload extends Component {
     const formData = new FormData();
     formData.append("file", this.state.fileToUpload);
     formData.append("sub_id", this.state.fileToUpload.name);
-    var fileToStringify  = {
-     'lastModified'     : this.state.fileToUpload.lastModified,
-     'lastModifiedDate' : this.state.fileToUpload.lastModifiedDate,
-     'name'             : this.state.fileToUpload.name,
-     'size'             : this.state.fileToUpload.size,
-     'type'             : this.state.fileToUpload.type
-   };
-    const bodyToSend = {
-      "file": JSON.stringify(fileToStringify),
-      "sub_id": this.state.fileToUpload.name
-    }
+    
     const requestOptions = {
         method: 'POST',
         headers: { 'x-api-key': '45d49036-1938-44e2-b443-af805aeb55fb'},
