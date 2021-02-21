@@ -39,7 +39,8 @@ class App extends Component {
             });
           } else {
             // Set these cats in the reducer
-            self.props.actions.setCatList(self.removeDuplicates(responseJson, "sub_id"));
+            // self.props.actions.setCatList(self.removeDuplicates(responseJson, "sub_id"));
+            self.props.actions.setCatList(responseJson);
             self.setState({
               loading: false
             });
@@ -60,6 +61,15 @@ class App extends Component {
       });
   }
 
+  renderCat(cat, index) {
+    return (
+      <div key={index} className="catContainer" >
+        <div className="innerContainer">
+          <img src={cat.url}/>
+        </div>
+      </div>
+    )
+  }
 
   render() {
     return (
@@ -74,6 +84,11 @@ class App extends Component {
               There has been a problem retrieving your cats. Please check your internet connection and try again
             </div>
           }
+          <div className="catRows">
+            {this.props.catList.map((cat, index) => (
+              this.renderCat(cat, index)
+            ))}
+          </div>
         </div>
       </div>
     )

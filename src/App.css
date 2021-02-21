@@ -140,3 +140,51 @@ a:hover {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+/* Display list of cats */
+
+.catRows {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.catContainer {
+  width: 25%;
+  display: flex;
+}
+
+.innerContainer {
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin: 10px;
+  box-shadow: 0 3px 5px 0 rgb(0 0 0 / 20%);
+}
+
+.catContainer img {
+  /* max-width: 400px; */
+  width: 100%;
+}
+
+
+/* Media Queries */
+@media only screen and (max-width: 1200px) {
+  .catContainer {
+    width: 33%;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  .catContainer {
+    width: 50%;
+  }
+}
+
+@media only screen and (max-width: 760px) {
+  .catContainer {
+    width: 100%;
+  }
+  .innerContainer {
+    width: 100%;
+  }
+}
