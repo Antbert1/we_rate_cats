@@ -1,3 +1,238 @@
-.title {
+/* Customise generic tags */
+
+/* a, h1, h2, p {
+  color: #4a4a4a;
+} */
+
+a:hover {
+  text-decoration: none;
+}
+
+.customHeader {
+  font-weight: 400;
+}
+
+.divider {
+  border-bottom: 2px solid #4a4a4a;
+  padding-bottom: 20px;
+}
+
+/* Button Styles */
+.buttonStyle {
+  padding: 5px 10px 5px 10px;
+  background-color: #4c6ef5;
+}
+
+.buttonStyle a {
+  color: white;
+  font-weight: 700;
+}
+
+.topNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.backChevron {
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+/* Uploader Styles */
+.uploaderContent {
+  display: flex;
+  justify-content: center;
+}
+
+/* Give this a width and height and sit whatever image into it */
+.catImage {
+  margin: 0 auto;
+  width: 340px;
+  height: 340px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 3px 5px 0 rgb(0 0 0 / 20%);
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/* Ensure image fits inside box */
+.catImage img {
+  max-width: 330px;
+}
+
+.customImgUpload {
+  cursor: pointer;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 5px 20px 5px 20px;
+}
+/* Hide the default input box */
+.defaultInput {
+  display: none !important;
+}
+
+.save {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.saveBtn {
+  color: white;
+  padding: 5px 20px 5px 20px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.activeSave {
+  background-color: #878787;
+}
+
+.inactiveSave {
+  background-color: #b8b8b8;
+  pointer-events: none;
+}
+
+.errorMsg {
+  margin: 20px auto;
+  color: #e52228;
+  text-align: center;
+  max-width: 400px;
+  border: 1px solid #e52228;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* Loading screen */
+.loading {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(183,183,183,0.5);
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Loading Spinner */
+.loader {
+  margin: 0 auto;
+  border: 6px solid transparent;
+  border-radius: 50%;
+  border-top: 6px solid white;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 1.3s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Display list of cats */
+
+.catRetrievalError {
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+  font-size: 16px;
+}
+
+.catRows {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.catContainer {
+  width: 25%;
+  display: flex;
+}
+
+.innerContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+  margin: 10px;
+  box-shadow: 0 3px 5px 0 rgb(0 0 0 / 20%);
+}
+
+.catContainer img {
+  /* max-width: 400px; */
+  width: 100%;
+}
+
+.heart {
+  padding-top: 5px;
+  color: #4c6ef5;
+  cursor: pointer;
+}
+
+.extraInfo {
+  padding-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.votes {
+  display: flex;
+  align-items: center;
+}
+
+.voteArrow {
   font-size: 20px;
+  cursor: pointer;
+}
+
+.voteArrowU {
+  padding-right: 10px;
+}
+
+.totalVotes {
+  font-size: 20px;
+  font-weight: 700;
+  width: 30px;
+  height: 30px;
+  border: 2px solid #4a4a4a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
+  margin-left: 10px;
+}
+
+/* Media Queries */
+@media only screen and (max-width: 1200px) {
+  .catContainer {
+    width: 33%;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  .catContainer {
+    width: 50%;
+  }
+}
+
+@media only screen and (max-width: 760px) {
+  .catContainer {
+    width: 100%;
+  }
+  .innerContainer {
+    width: 100%;
+  }
 }

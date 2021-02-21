@@ -1,32 +1,33 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Link,
+  Redirect
+} from 'react-router-dom';
+//Pages
+import RootPage from './pages';
+import Upload from './pages/upload';
 import * as Actions from './actions';
-import SubComponent from './components/SubComponent';
-import './App.css';
-import { getPlatform } from './util';
 
 class App extends Component {
-
+  //Use root app to deal with navigation
   render() {
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-md-12">
-            <div className="title">
-              Page Title
-            </div>
-            <SubComponent string="String to Display" />
-          </div>
-        </div>
-      </div>
+      <Router>
+        <Route exact path="/" component={RootPage} />
+        <Route exact path="/upload" component={Upload} />
+      </Router>
     )
   }
 }
 
 const mapStateToProps = (state, props) => {
     return {
-        data: state.dataReducer.data,
+        catList: state.dataReducer.catList,
     }
 };
 

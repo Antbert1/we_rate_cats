@@ -1,16 +1,16 @@
 import { combineReducers } from 'redux';
 import {
-    DATA
+    CAT_LIST
 } from '../actions';
 
 const dataState = {
-    data: []
+    catList: []
 }
 
 const dataReducer = (state = dataState, action) => {
     switch (action.type) {
-        case DATA:
-            state = Object.assign({}, state, {data: action.data});
+        case CAT_LIST:
+            state = Object.assign({}, state, {catList: action.catList});
             return state;
         default:
             return state;
