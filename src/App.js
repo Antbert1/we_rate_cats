@@ -10,7 +10,7 @@ import {
 } from 'react-router-dom';
 //Pages
 import RootPage from './pages';
-import Upload from './pages/upload';
+import Upload from './pages/Upload';
 import * as Actions from './actions';
 
 class App extends Component {
@@ -27,7 +27,7 @@ class App extends Component {
 
 const mapStateToProps = (state, props) => {
     return {
-        data: state.dataReducer.data,
+        catList: state.dataReducer.catList,
     }
 };
 
