@@ -186,13 +186,31 @@ a:hover {
   justify-content: space-between;
 }
 
+.votes {
+  display: flex;
+  align-items: center;
+}
+
 .voteArrow {
   font-size: 20px;
   cursor: pointer;
 }
 
-.voteArrowD {
+.voteArrowU {
   padding-right: 10px;
+}
+
+.totalVotes {
+  font-size: 20px;
+  font-weight: 700;
+  width: 30px;
+  height: 30px;
+  border: 2px solid #4a4a4a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
+  margin-left: 10px;
 }
 
 /* Media Queries */
