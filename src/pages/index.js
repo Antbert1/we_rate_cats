@@ -81,22 +81,6 @@ class App extends Component {
       });
   }
 
-  renderCat(cat, index) {
-    return (
-      <div key={index} className="catContainer" >
-        <div className="innerContainer">
-          <img src={cat.url}/>
-          {cat.favourite ?
-            <i className="fas fa-heart emptyHeart" onClick={()=>this.unfavourite(cat)}></i>
-            :
-            <i className="far fa-heart fullHeart" onClick={()=>this.favourite(cat)}></i>
-          }
-
-        </div>
-      </div>
-    )
-  }
-
   favourite(cat) {
     this.setState({
       loading: true
@@ -200,6 +184,29 @@ class App extends Component {
       }
     }
     this.props.actions.setCatList(newCatList);
+  }
+
+  renderCat(cat, index) {
+    return (
+      <div key={index} className="catContainer" >
+        <div className="innerContainer">
+          <img src={cat.url}/>
+          <div className="extraInfo">
+            {cat.favourite ?
+              <i className="fas fa-heart heart" onClick={()=>this.unfavourite(cat)}></i>
+              :
+              <i className="far fa-heart heart" onClick={()=>this.favourite(cat)}></i>
+            }
+            <div className="votes">              
+              <i class="fas fa-arrow-up voteArrow voteArrowD"></i>
+              <i class="fas fa-arrow-down voteArrow voteArrowU"></i>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    )
   }
 
   render() {

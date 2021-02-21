@@ -174,10 +174,26 @@ a:hover {
   width: 100%;
 }
 
-.emptyHeart {
+.heart {
   padding-top: 5px;
+  color: #4c6ef5;
+  cursor: pointer;
 }
 
+.extraInfo {
+  padding-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.voteArrow {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.voteArrowD {
+  padding-right: 10px;
+}
 
 /* Media Queries */
 @media only screen and (max-width: 1200px) {
