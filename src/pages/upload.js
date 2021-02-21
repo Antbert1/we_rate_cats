@@ -1,13 +1,12 @@
+//Upload page of app that allows you to upload a cat image from  your computer
+
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
-// import { bindActionCreators } from 'redux';
-// import * as Actions from '../actions';
 import { withRouter } from "react-router-dom";
-// import { compressToLimit } from '../util';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 import defaultImg from '../assets/images/blankCat.png';
 import back from '../assets/images/backChevron.png';
+const preUrl = 'https://api.thecatapi.com';
 
 class Upload extends Component {
 
@@ -29,7 +28,7 @@ class Upload extends Component {
     if (this.refs.file.files.length > 0) {
       var reader = new FileReader();
       var url = reader.readAsDataURL(file);
-
+      //Save this new image in the state
       reader.onloadend = function (e) {
         this.setState({
             imageSource: [reader.result],
@@ -42,26 +41,28 @@ class Upload extends Component {
   }
 
   submit() {
-    //Need to be able to use this within the fetch response
+    //Need to be able to use 'this' within the fetch response
     var self = this;
     //Start loading spinner
     self.setState({
       loading: true
     });
+
+    //Create form data for sending to endpoint
     const formData = new FormData();
     formData.append("file", this.state.fileToUpload);
     formData.append("sub_id", this.state.fileToUpload.name);
-    
+
     const requestOptions = {
         method: 'POST',
         headers: { 'x-api-key': '45d49036-1938-44e2-b443-af805aeb55fb'},
         body: formData
     };
-    fetch('https://api.thecatapi.com/v1/images/upload', requestOptions)
+    fetch(`${preUrl}/v1/images/upload`, requestOptions)
         .then(response => response.json())
         .then((responseJson)=> {
-          debugger;
           if (responseJson.approved !== 1) {
+            //If the upload fails, set state to display an error message
             self.setState({
               fileToUpload: "",
               loading: false,
@@ -70,6 +71,7 @@ class Upload extends Component {
               errorMsg: responseJson.message
             });
           } else {
+            //If success, go back to the homepage
             this.props.history.push('/');
           }
         })
@@ -128,22 +130,6 @@ class Upload extends Component {
       </div>
     )
   }
-
 }
-//
-// const mapStateToProps = (state, props) => {
-//     return {
-//         data: state.dataReducer.data
-//     }
-// };
-//
-// const mapDispatchToProps = (dispatch) => {
-//     return { actions: bindActionCreators(Actions, dispatch) }
-// };
-
-// export default connect(
-//     mapStateToProps,
-//     mapDispatchToProps
-// )(Upload);
 
 export default Upload;

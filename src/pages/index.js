@@ -1,3 +1,5 @@
+//Root page of app that shows a list of cats and allows voting and favouriting
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -7,6 +9,7 @@ import Header from '../components/Header';
 import Button from '../components/Button';
 import Loading from '../components/Loading';
 import '../App.css';
+const preUrl = 'https://api.thecatapi.com';
 
 class App extends Component {
 
@@ -20,15 +23,14 @@ class App extends Component {
   }
 
   componentDidMount() {
-    //Retrieve cats
     var self = this;
     const requestOptions = {
         method: 'GET',
         headers: { 'x-api-key': '45d49036-1938-44e2-b443-af805aeb55fb'}
     };
 
-    // Retrieve the max number of 100 cats
-    fetch(`https://api.thecatapi.com/v1/images?limit=100`, requestOptions)
+    // Retrieve the list of cats, the favourites, and the votes, in a chain
+    fetch(`${preUrl}/v1/images?limit=100`, requestOptions)
         .then(response => response.json())
         .then((responseJson)=> {
           if (responseJson.length == undefined) {
@@ -41,7 +43,7 @@ class App extends Component {
             // Set these cats in the reducer
             self.props.actions.setCatList(self.removeDuplicates(responseJson, "sub_id"));
             //Get favourites and cross reference
-            fetch(`https://api.thecatapi.com/v1/favourites?limit=100`, requestOptions)
+            fetch(`${preUrl}/v1/favourites?limit=100`, requestOptions)
                 .then(response => response.json())
                 .then((responseJson)=> {
                   if (responseJson.length == undefined) {
@@ -51,7 +53,35 @@ class App extends Component {
                       errorMsg: true
                     });
                   } else {
-                    self.addFavourites(responseJson);
+                    //Add favourites here using type 0
+                    self.addFavouritesAndVotes(responseJson, 0);
+
+                    //Get the votes
+                    fetch(`${preUrl}/v1/votes?limit=100`, requestOptions)
+                        .then(response => response.json())
+                        .then((responseJson)=> {
+                          if (responseJson.length == undefined) {
+                            //An error has occured
+                            self.setState({
+                              loading: false,
+                              errorMsg: true
+                            });
+                          } else {
+                            //Add votes to reducer using type 1
+                            self.addFavouritesAndVotes(responseJson, 1);
+                            self.setState({
+                              loading: false
+                            });
+                          }
+                        })
+                        .catch((error) => {
+                          self.setState({
+                            loading: false
+                          });
+                          console.log(error);
+                        });
+
+
                     self.setState({
                       loading: false
                     });
@@ -76,12 +106,13 @@ class App extends Component {
 
   //Remove duplicates from cat list
   removeDuplicates(myArr, prop) {
-      return myArr.filter((obj, pos, arr) => {
-          return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos;
-      });
+    return myArr.filter((obj, pos, arr) => {
+        return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos;
+    });
   }
 
   favourite(cat) {
+    //Post to favourite endpoint with selected ID
     this.setState({
       loading: true
     });
@@ -97,7 +128,7 @@ class App extends Component {
         headers: { 'content-type': 'application/json', 'x-api-key': '45d49036-1938-44e2-b443-af805aeb55fb'},
         body: JSON.stringify(bodyToSend)
     };
-    fetch('https://api.thecatapi.com/v1/favourites', requestOptions)
+    fetch(`${preUrl}/v1/favourites`, requestOptions)
         .then(response => response.json())
         .then((responseJson)=> {
           if (responseJson.message == 'SUCCESS') {
@@ -117,6 +148,7 @@ class App extends Component {
   }
 
   unfavourite(cat) {
+    //Delete favourite from endpoint with selected ID
     this.setState({
       loading: true
     });
@@ -127,7 +159,7 @@ class App extends Component {
         method: 'DELETE',
         headers: { 'x-api-key': '45d49036-1938-44e2-b443-af805aeb55fb'}
     };
-    fetch('https://api.thecatapi.com/v1/favourites/'+catID, requestOptions)
+    fetch(`${preUrl}/v1/favourites/${catID}`, requestOptions)
         .then(response => response.json())
         .then((responseJson)=> {
           if (responseJson.message == 'SUCCESS') {
@@ -146,16 +178,63 @@ class App extends Component {
         });
   }
 
-  addFavourites(ids) {
-    //Cross reference id list with cat list and add a favourite field
+  vote(cat, vote) {
+    //vote is either 1 or 0, to vote up or down
+    this.setState({
+      loading: true
+    });
+    var self = this;
+    //Use cat in response
+    var catID = cat;
+    var bodyToSend = {
+      "image_id": cat.id,
+      "sub_id": cat.sub_id,
+      "value": vote
+    }
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', 'x-api-key': '45d49036-1938-44e2-b443-af805aeb55fb'},
+        body: JSON.stringify(bodyToSend)
+    };
+    fetch(`${preUrl}/v1/votes`, requestOptions)
+        .then(response => response.json())
+        .then((responseJson)=> {
+          if (responseJson.message == 'SUCCESS') {
+            //Sort out votes in reducer
+            self.addVote(catID, responseJson.id, vote);
+          }
+          self.setState({
+            loading: false
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          self.setState({
+            loading: false
+          });
+        });
+  }
+
+  addFavouritesAndVotes(ids, type) {
+    //Cross reference id list with cat list and add favourite and votes fields
     let newCatList = this.props.catList;
-    newCatList.map(o => o.favouriteID = null);
-    newCatList.map(o => o.favourite = false);
+    if (type == 0) {
+      newCatList.map(o => o.favouriteID = null);
+      newCatList.map(o => o.favourite = false);
+    } else {
+      newCatList.map(o => o.votes = 0);
+    }
     for (var i = 0; i < newCatList.length; i++) {
       for (var j = 0; j < ids.length; j++) {
         if (newCatList[i].sub_id == ids[j].sub_id) {
-          newCatList[i].favouriteID = ids[j].id;
-          newCatList[i].favourite = true;
+          //If it's type 0, add a favourite
+          if (type == 0) {
+            newCatList[i].favouriteID = ids[j].id;
+            newCatList[i].favourite = true;
+          } else {
+            newCatList[i].votes = ids[j].value;
+          }
+
         }
       }
     }
@@ -186,6 +265,22 @@ class App extends Component {
     this.props.actions.setCatList(newCatList);
   }
 
+  addVote(cat, voteID, type) {
+    //Add new vote to reducer
+    let newCatList = this.props.catList;
+
+    for (var i = 0; i < newCatList.length; i++) {
+      if (newCatList[i].id == cat.id) {
+        if (type == 1) {
+          newCatList[i].votes = 1;
+        } else {
+          newCatList[i].votes = 0;
+        }
+      }
+    }
+    this.props.actions.setCatList(newCatList);
+  }
+
   renderCat(cat, index) {
     return (
       <div key={index} className="catContainer" >
@@ -197,13 +292,14 @@ class App extends Component {
               :
               <i className="far fa-heart heart" onClick={()=>this.favourite(cat)}></i>
             }
-            <div className="votes">              
-              <i class="fas fa-arrow-up voteArrow voteArrowD"></i>
-              <i class="fas fa-arrow-down voteArrow voteArrowU"></i>
+            <div className="votes">
+              <i className="fas fa-arrow-up voteArrow voteArrowU" onClick={()=>this.vote(cat, 1)}></i>
+              <i className="fas fa-arrow-down voteArrow voteArrowD" onClick={()=>this.vote(cat, 0)}></i>
+              <div className="totalVotes">
+                {cat.votes}
+              </div>
             </div>
           </div>
-
-
         </div>
       </div>
     )
