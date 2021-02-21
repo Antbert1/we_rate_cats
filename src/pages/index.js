@@ -5,15 +5,28 @@ import * as Actions from '../actions';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Button from '../components/Button';
+import Loading from '../components/Loading';
 import '../App.css';
-// import { testFunction } from '../util';
 
 class App extends Component {
 
+  constructor(props) {
+    super(props);
+    // Set a loading state to show a spinner while we retrieve cats
+    this.state = {
+      loading: true
+    }
+  }
   render() {
     return (
-      <div className="container">
-        <Header root />
+      <div>
+        {this.state.loading &&
+          <Loading />
+        }
+        <div className="container">
+          <Header root />
+          Test
+        </div>
       </div>
     )
   }
@@ -21,7 +34,7 @@ class App extends Component {
 
 const mapStateToProps = (state, props) => {
     return {
-        data: state.dataReducer.data,
+        catList: state.dataReducer.catList,
     }
 };
 

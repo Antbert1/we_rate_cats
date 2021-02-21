@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as Actions from '../actions';
+// import { connect } from 'react-redux';
+// import { bindActionCreators } from 'redux';
+// import * as Actions from '../actions';
 import { withRouter } from "react-router-dom";
-import { compressToLimit, uploadImage } from '../util';
+// import { compressToLimit } from '../util';
 import Header from '../components/Header';
+import Loading from '../components/Loading';
 import defaultImg from '../assets/images/blankCat.png';
 import back from '../assets/images/backChevron.png';
 
@@ -41,7 +42,12 @@ class Upload extends Component {
   }
 
   submit() {
+    //Need to be able to use this within the fetch response
     var self = this;
+    //Start loading spinner
+    self.setState({
+      loading: true
+    });
     const formData = new FormData();
     formData.append("file", this.state.fileToUpload);
     formData.append("sub_id", this.state.fileToUpload.name);
@@ -91,56 +97,63 @@ class Upload extends Component {
 
   render() {
     return (
-      <div className="container">
-        <Header root={false} />
-        <img src={back} className="backChevron" onClick={()=>this.props.history.push('/')} />
-        <div className="catImage">
-          <img src={this.state.imageSource} />
-        </div>
-        <div className="uploaderContent">
-          <label htmlFor="image-upload" className="customImgUpload buttonStyle">
-            UPLOAD CAT
-          </label>
-        </div>
-        <input
-          ref="file"
-          type="file"
-          id="image-upload"
-          name="imageFile"
-          // accept="image/jpeg, image/png"
-          onChange={()=>this._onChange()}
-          className="defaultInput"
-        />
-        <div className="save">
-          <div
-            className={"saveBtn " + (this.state.saveButton ? 'activeSave' : 'inactiveSave')}
-            onClick={()=>this.submit()}
-            >
-            SAVE
-          </div>
-        </div>
-        {this.state.errorMsg !== null &&
-          <div className="errorMsg">
-            {this.state.errorMsg}
-          </div>
+      <div>
+        {this.state.loading &&
+          <Loading />
         }
+        <div className="container">
+          <Header root={false} />
+          <img src={back} className="backChevron" onClick={()=>this.props.history.push('/')} />
+          <div className="catImage">
+            <img src={this.state.imageSource} />
+          </div>
+          <div className="uploaderContent">
+            <label htmlFor="image-upload" className="customImgUpload buttonStyle">
+              UPLOAD CAT
+            </label>
+          </div>
+          <input
+            ref="file"
+            type="file"
+            id="image-upload"
+            name="imageFile"
+            accept="image/jpeg, image/png"
+            onChange={()=>this._onChange()}
+            className="defaultInput"
+          />
+          <div className="save">
+            <div
+              className={"saveBtn " + (this.state.saveButton ? 'activeSave' : 'inactiveSave')}
+              onClick={()=>this.submit()}
+              >
+              SAVE
+            </div>
+          </div>
+          {this.state.errorMsg !== null &&
+            <div className="errorMsg">
+              {this.state.errorMsg}
+            </div>
+          }
+        </div>
       </div>
     )
   }
 
 }
+//
+// const mapStateToProps = (state, props) => {
+//     return {
+//         data: state.dataReducer.data
+//     }
+// };
+//
+// const mapDispatchToProps = (dispatch) => {
+//     return { actions: bindActionCreators(Actions, dispatch) }
+// };
 
-const mapStateToProps = (state, props) => {
-    return {
-        data: state.dataReducer.data
-    }
-};
+// export default connect(
+//     mapStateToProps,
+//     mapDispatchToProps
+// )(Upload);
 
-const mapDispatchToProps = (dispatch) => {
-    return { actions: bindActionCreators(Actions, dispatch) }
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Upload);
+export default Upload;
